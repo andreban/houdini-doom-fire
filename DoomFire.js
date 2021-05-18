@@ -50,9 +50,11 @@ class DoomFire {
       flames[i] = 0;
     }
 
+    ctx.fillStyle = HTML_COLOR_SCALE[HTML_COLOR_SCALE.length - 1];
     const bottom_row = (num_rows - 1) * num_cols;
     for (let x = 0; x < num_cols; x++) {
       flames[bottom_row + x] = HTML_COLOR_SCALE.length - 1;
+      ctx.fillRect(x * size, bottom_row * size, size + 1, size + 1);
     }
 
     for (let y = num_rows - 2; y > 0; y--) {
@@ -64,13 +66,7 @@ class DoomFire {
         const src_color = flames[previous_row_start + src_x];
         const dst_color = Math.max(src_color - (rand & 1), 0);
         flames[row_start + x] = dst_color;
-      }
-    }
-
-    for (let y = 0; y < num_rows; y++) {
-      for (let x = 0; x < num_cols; x++) {
-        let color_id = flames[y * num_cols + x];
-        ctx.fillStyle = HTML_COLOR_SCALE[color_id];
+        ctx.fillStyle = HTML_COLOR_SCALE[dst_color];
         ctx.fillRect(x * size, y * size, size + 1, size + 1);
       }
     }
